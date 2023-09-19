@@ -52,7 +52,8 @@ In this project, you will create a classroom timer with a user-friendly GUI. The
    - Set its `Name` property to "timerTextBox."
    - Set its `Enabled` property to `False` to prevent user input.
    - Set its `Text` property to an initial value (e.g., "00:00").
-![[Classroom_Timer_SS.png]]
+
+    ![Imgur](https://i.imgur.com/m7SZ7k2.png)
 
 **Step 5: Customize the Form Properties**
 
@@ -115,4 +116,4 @@ namespace ClassroomTimer
 
 These step-by-step instructions should help you create a basic classroom timer GUI in Visual Studio using C# and Windows Forms. You can further customise the design and add additional features as desired.
 
-![[DS_console_Timer.png]]
+![Imgur](https://i.imgur.com/XllBXAO.png)
