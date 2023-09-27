@@ -68,34 +68,101 @@ In this project, you will create a classroom timer with a user-friendly GUI. The
 
 ```csharp
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ClassroomTimer
+namespace SimpleCalculator
 {
     public partial class Form1 : Form
     {
-        private Timer timer;
-        private int totalSeconds;
+        private int remainingSeconds; // Variable to store remaining seconds
+        private Timer timer; // Timer for the countdown
 
         public Form1()
         {
             InitializeComponent();
+        }
 
-            // Initialize the timer control
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Initialize the form and controls
+            durationTextBox.Text = "00:00";
             timer = new Timer();
             timer.Interval = 1000; // 1 second interval
             timer.Tick += new EventHandler(TimerCallback);
             timer.Enabled = false; // Timer is initially disabled
         }
 
+        private void timerTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // Display the entered time in the durationTextBox
+            durationTextBox.Text = timerTextBox.Text;
+        }
+
         private void startButton_Click(object sender, EventArgs e)
         {
-            // Add code for starting and stopping the timer here
+            // Start or pause the timer when the button is clicked
+            if (!timer.Enabled)
+            {
+                if (int.TryParse(timerTextBox.Text, out int minutes))
+                {
+                    if (minutes >= 1 && minutes <= 30)
+                    {
+                        // Calculate total seconds from minutes
+                        remainingSeconds = minutes * 60;
+
+                        // Enable the timer and disable user input for timerTextBox
+                        timer.Enabled = true;
+                        timerTextBox.Enabled = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter a valid number between 1 and 30 for the duration.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid number for the duration.");
+                }
+            }
+            else
+            {
+                // Pause the timer
+                timer.Enabled = false;
+                timerTextBox.Enabled = true; // Enable user input
+            }
         }
 
         private void TimerCallback(object sender, EventArgs e)
         {
-            // Add code for updating the timer display and handling the alarm here
+            // Timer callback event handler code goes here
+            if (remainingSeconds > 0)
+            {
+                remainingSeconds--;
+
+                // Update timerTextBox with remaining time
+                int minutes = remainingSeconds / 60;
+                int seconds = remainingSeconds % 60;
+                timerTextBox.Text = $"{minutes:D2}:{seconds:D2}";
+            }
+            else
+            {
+                // Timer has reached 0, display "TIME UP!" and stop the timer
+                timerTextBox.Text = "TIME UP!";
+                timer.Enabled = false;
+                timerTextBox.Enabled = true; // Enable user input
+            }
+        }
+
+        private void durationTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // durationTextBox.TextChanged event handler code goes here
         }
     }
 }
